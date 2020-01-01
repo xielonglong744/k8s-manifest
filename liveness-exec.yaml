@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: liveness-pod
+  namespace: default
+spec:
+  containers:
+  - name: nginx
+    image: nginx:latest
+    imagePullPolicy: IfNotPresent
+    ports:
+    - name: http
+      containerPort: 80
+    lifecycle:
+      postStart:
+        exec:
+          command:
+          - /bin/sh
+          - -c
+          - "echo hello >/usr/share/nginx/html/xielonglong.html"
+    livenessProbe:
+      httpGet:
+        port: http
+        scheme: HTTP
+        path: /xielonglong.html
+     
