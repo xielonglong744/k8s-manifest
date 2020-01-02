@@ -1,0 +1,18 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: myjob
+  namespace: xielonglong
+spec:
+  completions: 6
+  parallelism: 2
+  template:
+    metadata:
+      name: myjob
+    spec:
+      containers:
+      - name: myjob
+        image: alpine
+        command: ["/bin/sh","-c","sleep 5"]
+      restartPolicy: Never
+

@@ -1,0 +1,29 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: mycron-job
+  namespace: xielonglong
+  labels:
+    app: mycronjob
+spec:
+  schedule: "*/2 * * * *"
+  jobTemplate:
+    metadata:
+      name: myjob
+      namespace: xielonglong
+      labels:
+        app: mycronjob
+    spec:
+      completions: 1
+      parallelism: 1
+      template:
+        spec:
+          containers:
+          - name: myjob
+            image: alpine
+            command:
+            - /bin/sh
+            - -c
+            - date;echo hello from the kubernetes cluster;sleep 10
+          restartPolicy: OnFailure
+          
