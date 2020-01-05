@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mypod
+  namespace: xielonglong
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: myapp
+      rel: canary
+  template:
+    metadata:
+      namespace: xielonglong
+      labels:
+        app: myapp
+        rel: canary
+    spec:
+      containers:
+      - name: mynginx
+        image: nginx
+        imagePullPolicy: IfNotPresent
+        ports:
+        - name: http
+          containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysvc
+  namespace: xielonglong
+spec:
+  ports:
+  - name: http
+    port: 80
+    targetPort: 80
+  selector:
+    app: myapp
+    rel: canary
+
