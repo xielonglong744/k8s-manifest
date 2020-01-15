@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mycm-yaml
+  namespace: config
+data:
+  server3.conf: |
+    server {
+      server_name xielonglong.com;
+      listen 80;
+      location / {
+        root "/html/magedu";
+     }
+     }

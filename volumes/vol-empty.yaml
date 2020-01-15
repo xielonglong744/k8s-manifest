@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mydep
+  namespace: xielonglong
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: myapp
+      rel: release
+  template:
+    metadata:
+      namespace: xielonglong
+      labels:
+        app: myapp
+        rel: release
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+        imagePullPolicy: IfNotPresent
+        volumeMounts:
+        - name: myvol
+          mountPath: /usr/share/nginx/html
+      - name: alpine
+        image: alpine
+        imagePullPolicy: IfNotPresent
+        volumeMounts:
+        - name: myvol
+          mountPath: /data
+        command: ["/bin/sh","-c"]
+        args:
+        - "while true;do echo $(hostname) $(date) >> /data/index.html;done"
+      volumes:
+      - name: myvol
+        emptyDir: {}

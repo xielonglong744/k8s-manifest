@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mydeploy-cm
+  namespace: config
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: myapp
+      rel: release
+  template:
+    metadata:
+      namespace: config
+      labels:
+        app: myapp
+        rel: release
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.14-alpine
+        imagePullPolicy: IfNotPresent
+        volumeMounts:
+        - name: config
+          mountPath: /etc/nginx/conf.d/
+      volumes:
+      - name: config
+        configMap:
+          name: myservercm
+          items:
+          - key: server1.conf
+            path: server-first.conf
+          - key: server2.conf
+            path: server-second.conf

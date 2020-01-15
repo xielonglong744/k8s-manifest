@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mypvc
+  namespace: xielonglong
+spec:
+  accessModes:
+  - ReadWriteOnce
+  volumeMode: Filesystem
+  volumeName: mypv
+  resources:
+    requests:
+      storage: 3Gi

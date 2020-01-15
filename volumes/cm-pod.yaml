@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mydeploy
+  namespace: config
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: myapp
+      rel: canary
+  template:
+    metadata:
+      namespace: config
+      labels:
+        app: myapp
+        rel: canary
+    spec:
+      containers:
+      - name: filebeat
+        image: ikubernetes/filebeat:5.6.5-alpine
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: REDIS_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: mycm
+              key: redis_host
+        - name: LOG_LEVEL
+          valueFrom:
+            configMapKeyRef:
+              name: mycm
+              key: info
