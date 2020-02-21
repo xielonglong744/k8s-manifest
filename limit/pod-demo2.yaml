@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: Pod
+metadata: 
+  name: mypod2
+  namespace: xielonglong
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+    resources:
+      requests:
+        cpu: 200m
+      limits:
+        cpu: 200m
+  - name: myapp
+    image: nginx
+    resources:
+      requests:
+        cpu: 200m
+      limits:
+        cpu: 200m
+  - name: mynginx
+    image: nginx
+    resources:
+      requests:
+        cpu: 200m
+      limits:
+        cpu: 200m

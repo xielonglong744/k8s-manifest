@@ -1,0 +1,58 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: sts
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sts-svc
+  namespace: sts
+spec:
+  clusterIP: "None"
+  selector:
+    app: myapp
+    rel: release
+  ports:
+  - port: 80
+    targetPort: 80
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: sts-pod
+  namespace: sts
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: myapp
+      rel: release
+  serviceName: sts-svc
+  template:
+    metadata:
+      namespace: sts
+      labels:
+        app: myapp
+        rel: release
+    spec:
+      containers:
+      - name: myapp
+        image: ikubernetes/myapp:v1
+        imagePullPolicy: IfNotPresent
+        ports:
+        - name: http
+          containerPort: 80
+        volumeMounts:
+        - name: mypvc
+          mountPath: /usr/share/nginx/html
+  volumeClaimTemplates:
+  - metadata:
+      name: mypvc
+    spec:
+      accessModes:
+      - ReadWriteOnce
+      - ReadWriteMany
+      resources:
+        requests:
+          storage: 2Gi
