@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: ceph-kube
+data:
+  key: QVFDbkhsMWVCZmQxSGhBQUhaWVhuNnhnZmM1aEorNjRVRzJvd3c9PQ==
+type: "kubernetes.io/rbd"
+apiVersion: v1
+kind: Secret
+metadata:
+  name: ceph-admin
+data:
+  key: QVFBZnZWdGVDV2wySlJBQVZyWTBYbHduLzlpZTV1NURENTBIeHc9PQ==
+type: "kubernetes.io/rbd"

@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mypod
+spec:
+  containers:
+  - name: myimg
+    image: nginx
+    imagePullPolicy: IfNotPresent
+    volumeMounts:
+    - name: ceph-vol
+      mountPath: /data
+  volumes:
+  - name: ceph-vol
+    rbd:
+      monitors:
+      - 192.168.137.120:6789
+      - 192.168.137.121:6789
+      - 192.168.137.122:6789
+      image: podimg01
+      fsType: xfs
+      pool: kube
+      user: kube
+      secretRef:
+        name: ceph-kube
